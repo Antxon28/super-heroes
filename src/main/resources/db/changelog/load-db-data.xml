@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <includeAll path="com/example/changelogs/"/>
+    
+    <changeSet id="load-db-data-20211122" author="antonio.soto">
+        <insert tableName="heroes">
+            <column name="name" value="Batman" />
+            <column name="ability" value="Detective" />
+        </insert>
+        <insert tableName="heroes">
+            <column name="name" value="Superman" />
+            <column name="ability" value="Strong" />
+        </insert>
+        <insert tableName="heroes">
+            <column name="name" value="Spiderman" />
+            <column name="ability" value="Webs" />
+        </insert>
+        <insert tableName="heroes">
+            <column name="name" value="Iron man" />
+            <column name="ability" value="Fly" />
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
