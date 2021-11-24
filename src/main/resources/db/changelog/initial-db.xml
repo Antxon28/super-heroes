@@ -7,7 +7,7 @@
     <includeAll path="com/example/changelogs/"/>
 
     <changeSet id="initial-commit-20211122" author="antonio.soto">
-        <createTable tableName="heroes">
+        <createTable tableName="superhero">
             <column name="id" type="INTEGER" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true" unique="true" />
             </column>
