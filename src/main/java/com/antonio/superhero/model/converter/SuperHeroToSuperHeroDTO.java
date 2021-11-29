@@ -1,6 +1,6 @@
 package com.antonio.superhero.model.converter;
 
-import com.antonio.superhero.model.dto.SuperHeroDTO;
+import com.antonio.superhero.model.dto.out.SuperHeroDTO;
 import com.antonio.superhero.model.entity.SuperHero;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

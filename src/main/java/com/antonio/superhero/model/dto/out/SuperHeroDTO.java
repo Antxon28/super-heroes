@@ -1,4 +1,4 @@
-package com.antonio.superhero.model.dto;
+package com.antonio.superhero.model.dto.out;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
