@@ -34,4 +34,12 @@ public interface SuperHeroService {
      */
     SuperHeroDTO updateSuperHero(final Integer superHeroId, final SuperHeroInDTO superHeroIn);
 
+    /**
+     * Removes a super hero from the database
+     *
+     * @param superHeroId super hero identification to remove
+     * @return response super removed or not
+     */
+    Boolean deleteSuperHero(final Integer superHeroId);
+
 }

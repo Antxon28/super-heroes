@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -103,6 +104,22 @@ class SuperHeroControllerTest {
                 .ability("new_ability")
                 .build();
         Assertions.assertThrows(ResponseStatusException.class, () -> superHeroController.updateSuperHero(superHeroID, superHeroRequestBody));
+    }
+
+    @Test
+    void GIVEN_data_WHEN_deleteSuperHero_THEN_ok() {
+        Mockito.when(superHeroService.deleteSuperHero(Mockito.any())).thenReturn(Boolean.TRUE);
+        Boolean response = superHeroController.deleteSuperHero(1);
+
+        Assertions.assertTrue(response);
+        Mockito.verify(superHeroService).deleteSuperHero(Mockito.any());
+    }
+
+    @Test
+    void GIVEN_data_WHEN_deleteSuperHero_THEN_not_found() {
+        Mockito.when(superHeroService.deleteSuperHero(Mockito.any()))
+                .thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST, "error"));
+        Assertions.assertThrows(ResponseStatusException.class, () -> superHeroController.deleteSuperHero(999));
     }
 
 }

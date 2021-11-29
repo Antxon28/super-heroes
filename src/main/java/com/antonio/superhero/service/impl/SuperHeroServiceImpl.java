@@ -56,4 +56,13 @@ public class SuperHeroServiceImpl implements SuperHeroService {
         return this.conversionService.convert(superHeroToUpdate, SuperHeroDTO.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean deleteSuperHero(final Integer superHeroId) {
+        this.superHeroRepository.deleteById(superHeroId.longValue());
+        return true;
+    }
+
 }

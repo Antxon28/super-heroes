@@ -57,4 +57,16 @@ public class SuperHeroController {
             @Valid @RequestBody(required = true) final SuperHeroInDTO superHeroIn) {
         return this.superHeroService.updateSuperHero(superHeroId, superHeroIn);
     }
+
+    /**
+     * Removes a super hero from the database
+     *
+     * @param superHeroId super hero identification to remove
+     * @return response super removed or not
+     */
+    @DeleteMapping(value = "/{id}")
+    public Boolean deleteSuperHero(
+            @PathVariable(value = "id", required = true) final Integer superHeroId) {
+        return this.superHeroService.deleteSuperHero(superHeroId);
+    }
 }
