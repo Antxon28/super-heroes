@@ -3,6 +3,9 @@ package com.antonio.superhero.controller;
 import com.antonio.superhero.model.dto.in.SuperHeroInDTO;
 import com.antonio.superhero.model.dto.out.SuperHeroDTO;
 import com.antonio.superhero.service.SuperHeroService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,9 +29,11 @@ public class SuperHeroController {
      * @return pageable super hero list
      */
     @GetMapping()
+    @ApiOperation(value = "Retrieves all the superheroes from data base with a filter.")
     public Page<SuperHeroDTO> getAllSuperHeroes(
+            @ApiParam(value = "SuperHero search filter", example = "Batman")
             @RequestParam(value = "filter", required = false) final String filter,
-            @PageableDefault Pageable pageable) {
+            @ApiParam(value = "Pageable parameters") @PageableDefault Pageable pageable) {
         return this.superHeroService.getAllSuperHeroes(filter, pageable);
     }
 
@@ -39,7 +44,9 @@ public class SuperHeroController {
      * @return super hero information.
      */
     @GetMapping(value = "/{id}")
+    @ApiOperation(value = "Retrieves all the information from a superhero.")
     public SuperHeroDTO getSuperHeroByID(
+            @ApiParam(value = "Super hero identification", example = "1", required = true)
             @PathVariable(value = "id", required = true) final Integer superHeroId) {
         return this.superHeroService.getSuperHeroByID(superHeroId);
     }
@@ -52,9 +59,11 @@ public class SuperHeroController {
      * @return superhero updated with new information
      */
     @PostMapping(value = "/{id}")
+    @ApiOperation(value = "Updates the information from a superhero")
     public SuperHeroDTO updateSuperHero(
+            @ApiParam(value = "Super hero identification", example = "1", required = true)
             @PathVariable(value = "id", required = true) final Integer superHeroId,
-            @Valid @RequestBody(required = true) final SuperHeroInDTO superHeroIn) {
+            @ApiParam(value = "New super hero data") @Valid @RequestBody(required = true) final SuperHeroInDTO superHeroIn) {
         return this.superHeroService.updateSuperHero(superHeroId, superHeroIn);
     }
 
@@ -65,7 +74,9 @@ public class SuperHeroController {
      * @return response super removed or not
      */
     @DeleteMapping(value = "/{id}")
+    @ApiOperation(value = "Removes a superhero")
     public Boolean deleteSuperHero(
+            @ApiParam(value = "Super hero identification", example = "1", required = true)
             @PathVariable(value = "id", required = true) final Integer superHeroId) {
         return this.superHeroService.deleteSuperHero(superHeroId);
     }
