@@ -7,6 +7,7 @@ import com.antonio.superhero.model.specification.SuperHeroSpecification;
 import com.antonio.superhero.repository.SuperHeroRepository;
 import com.antonio.superhero.service.SuperHeroService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,14 +22,25 @@ public class SuperHeroServiceImpl implements SuperHeroService {
 
     private final SuperHeroRepository superHeroRepository;
     private final ConversionService conversionService;
+    private Page<SuperHeroDTO> superHeroInCache;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Page<SuperHeroDTO> getAllSuperHeroes(final String filter, final Pageable pageable) {
-        return superHeroRepository.findAll(SuperHeroSpecification.getSuperHero(filter), pageable)
+        boolean saveInCache = false;
+        if (StringUtils.isEmpty(filter)) {
+            saveInCache = true;
+            if (superHeroInCache != null) return superHeroInCache;
+        }
+        Page<SuperHeroDTO> superHeroInCacheLocal = superHeroRepository.findAll(SuperHeroSpecification.getSuperHero(filter), pageable)
                 .map(superHero -> conversionService.convert(superHero, SuperHeroDTO.class));
+
+        if (saveInCache) {
+            saveInCache(superHeroInCacheLocal);
+        }
+        return superHeroInCacheLocal;
     }
 
     /**
@@ -53,6 +65,7 @@ public class SuperHeroServiceImpl implements SuperHeroService {
                 .ability(superHeroInDTO.getAbility())
                 .build();
         superHeroToUpdate = this.superHeroRepository.save(superHeroToUpdate);
+        superHeroInCache = null;
         return this.conversionService.convert(superHeroToUpdate, SuperHeroDTO.class);
     }
 
@@ -63,6 +76,15 @@ public class SuperHeroServiceImpl implements SuperHeroService {
     public Boolean deleteSuperHero(final Integer superHeroId) {
         this.superHeroRepository.deleteById(superHeroId.longValue());
         return true;
+    }
+
+    /**
+     * Saves in cache the super hero page without a filter
+     *
+     * @param superHeroInCacheLocal page with all the superheroes without filters
+     */
+    private void saveInCache(Page<SuperHeroDTO> superHeroInCacheLocal) {
+        superHeroInCache = superHeroInCacheLocal;
     }
 
 }
