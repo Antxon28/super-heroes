@@ -1,9 +1,9 @@
 package com.antonio.superhero.controller;
 
+import com.antonio.superhero.config.timed.Timer;
 import com.antonio.superhero.model.dto.in.SuperHeroInDTO;
 import com.antonio.superhero.model.dto.out.SuperHeroDTO;
 import com.antonio.superhero.service.SuperHeroService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +30,7 @@ public class SuperHeroController {
      */
     @GetMapping()
     @ApiOperation(value = "Retrieves all the superheroes from data base with a filter.")
+    @Timer
     public Page<SuperHeroDTO> getAllSuperHeroes(
             @ApiParam(value = "SuperHero search filter", example = "Batman")
             @RequestParam(value = "filter", required = false) final String filter,
@@ -45,6 +46,7 @@ public class SuperHeroController {
      */
     @GetMapping(value = "/{id}")
     @ApiOperation(value = "Retrieves all the information from a superhero.")
+    @Timer
     public SuperHeroDTO getSuperHeroByID(
             @ApiParam(value = "Super hero identification", example = "1", required = true)
             @PathVariable(value = "id", required = true) final Integer superHeroId) {
@@ -60,6 +62,7 @@ public class SuperHeroController {
      */
     @PostMapping(value = "/{id}")
     @ApiOperation(value = "Updates the information from a superhero")
+    @Timer
     public SuperHeroDTO updateSuperHero(
             @ApiParam(value = "Super hero identification", example = "1", required = true)
             @PathVariable(value = "id", required = true) final Integer superHeroId,
@@ -75,6 +78,7 @@ public class SuperHeroController {
      */
     @DeleteMapping(value = "/{id}")
     @ApiOperation(value = "Removes a superhero")
+    @Timer
     public Boolean deleteSuperHero(
             @ApiParam(value = "Super hero identification", example = "1", required = true)
             @PathVariable(value = "id", required = true) final Integer superHeroId) {
