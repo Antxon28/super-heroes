@@ -75,6 +75,7 @@ public class SuperHeroServiceImpl implements SuperHeroService {
     @Override
     public Boolean deleteSuperHero(final Integer superHeroId) {
         this.superHeroRepository.deleteById(superHeroId.longValue());
+        superHeroInCache = null;
         return true;
     }
 

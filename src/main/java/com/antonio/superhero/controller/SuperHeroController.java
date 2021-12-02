@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import utils.SanitizationUtils;
 
 import javax.validation.Valid;
 
@@ -28,14 +30,15 @@ public class SuperHeroController {
      * @param pageable pagination configuration
      * @return pageable super hero list
      */
-    @GetMapping()
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Retrieves all the superheroes from data base with a filter.")
     @Timer
     public Page<SuperHeroDTO> getAllSuperHeroes(
             @ApiParam(value = "SuperHero search filter", example = "Batman")
             @RequestParam(value = "filter", required = false) final String filter,
             @ApiParam(value = "Pageable parameters") @PageableDefault Pageable pageable) {
-        return this.superHeroService.getAllSuperHeroes(filter, pageable);
+        String filterSanitized = SanitizationUtils.checkValidFilter(filter);
+        return this.superHeroService.getAllSuperHeroes(filterSanitized, pageable);
     }
 
     /**
@@ -44,7 +47,8 @@ public class SuperHeroController {
      * @param superHeroId super hero identification
      * @return super hero information.
      */
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Retrieves all the information from a superhero.")
     @Timer
     public SuperHeroDTO getSuperHeroByID(
@@ -60,7 +64,9 @@ public class SuperHeroController {
      * @param superHeroIn new super hero information
      * @return superhero updated with new information
      */
-    @PostMapping(value = "/{id}")
+    @PostMapping(value = "/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Updates the information from a superhero")
     @Timer
     public SuperHeroDTO updateSuperHero(
@@ -76,7 +82,8 @@ public class SuperHeroController {
      * @param superHeroId super hero identification to remove
      * @return response super removed or not
      */
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Removes a superhero")
     @Timer
     public Boolean deleteSuperHero(
